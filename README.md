@@ -1,24 +1,21 @@
-# test-task
+# Тестовое задание для Alert Group
 
-## Project setup
+## Установка зависимостей
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### Dev-режим
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
+### Билд в прод
 ```
 npm run build
 ```
 
-### Lints and fixes files
-```
-npm run lint
-```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+####Для протокола:
+Немного выбился из сроков и делал последние изменения уже на полуавтомате.
+Мог что-то упустить
