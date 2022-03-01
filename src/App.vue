@@ -1,29 +1,54 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
-  </div>
+  <v-app id="app">
+    <div class="contentWrapper">
+      <ContentComponent/>
+    </div>
+  </v-app>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import HelloWorld from './components/HelloWorld.vue'
+import ContentComponent from '@/components/ContentComponent.vue'
 
 export default Vue.extend({
   name: 'App',
   components: {
-    HelloWorld
+    ContentComponent
   }
 })
 </script>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style lang="sass">
+$padding: 80px
+
+@font-face
+  font-family: 'Gotham Pro Regular'
+  src: url('./static/GothamPro.eot')
+  src: url('./static/GothamPro.eot?#iefix') format('embedded-opentype'), url('./static/GothamPro.woff') format('woff'), url('./static/GothamPro.ttf') format('truetype')
+  font-weight: normal
+  font-style: normal
+
+body,
+html
+  margin: 0
+  font-family: 'Gotham Pro Regular', sans-serif
+
+#app
+  -webkit-font-smoothing: antialiased
+  -moz-osx-font-smoothing: grayscale
+
+  display: flex
+  text-align: center
+  color: #2C323A
+  padding: $padding
+  background-color: #2f2e2d
+
+  height: 100vh
+  width: 100vw
+
+.contentWrapper
+  background-color: white
+  border-radius: 10px
+  padding: 30px
+  width: 100%
 </style>
