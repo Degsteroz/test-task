@@ -1,0 +1,84 @@
+<template>
+  <v-container class="slider">
+    <div>
+      <span class="slider__header">{{options.header}}</span>
+      <span class="slider__header subheader">{{options.subheader}}</span>
+    </div>
+    <div class="inputWrapper">
+      <input v-model="sliderValue[0]">
+      <span class="inputWrapper__separator"/>
+      <input v-model="sliderValue[1]">
+    </div>
+    <v-range-slider
+      @change="changeSliderValue"
+      v-model="sliderValue"
+      :max="options.maxValue"
+      :min="options.minValue"
+    />
+  </v-container>
+</template>
+
+<script lang="ts">
+import Vue from 'vue'
+
+export default Vue.extend({
+  name: 'BaseSlider',
+  props: {
+    options: {
+      type: Object
+    },
+    value: {
+      type: Array,
+      required: true
+    }
+  },
+  computed: {
+    sliderValue: {
+      get (): Array<number> {
+        return this.$props.value
+      },
+      set (newValue) : void {
+        this.$emit('change', newValue)
+      }
+    }
+  },
+  methods: {
+    changeSliderValue (newValue: [number, number]) : void {
+      this.sliderValue = newValue
+    }
+  }
+})
+</script>
+
+<style scoped lang="sass">
+@import "src/styles/mixins"
+
+input
+  @include border
+  background: #FFFFFF
+  padding: 7px 0 5px
+  text-align: center
+  width: 80px
+
+.slider
+  display: flex
+  flex-direction: column
+  width: 175px
+  padding: 0
+
+.slider__header
+  @include smallHeader
+  align-self: flex-start
+  margin-right: 3px
+  &.subheader
+    font-size: 10px
+
+.inputWrapper
+  display: flex
+  align-items: center
+
+.inputWrapper__separator
+  margin: 0 5px
+  &:after
+    content: '-'
+</style>

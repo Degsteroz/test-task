@@ -31,11 +31,11 @@ $padding: 80px
 body,
 html
   margin: 0
-  font-family: 'Gotham Pro Regular', sans-serif
 
 #app
   -webkit-font-smoothing: antialiased
   -moz-osx-font-smoothing: grayscale
+  font-family: 'Gotham Pro Regular', sans-serif
 
   display: flex
   text-align: center
