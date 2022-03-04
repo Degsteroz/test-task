@@ -3,7 +3,11 @@
     <div class="content__header">
       {{this.message}}
     </div>
-    <FilterComponent msg="Welcome to Your Vue.js + TypeScript App"/>
+    <FilterComponent
+      :filter-value="filterValue"
+      @change="setNewFilterValue"
+    />
+    {{filterValue}}
   </v-container>
 </template>
 
@@ -11,14 +15,48 @@
 import Vue from 'vue'
 import FilterComponent from '@/components/FilterComponent.vue'
 
+interface FilterValue {
+  floors: number[],
+  square: number[],
+  price: number[],
+  rooms: number[]
+}
+
 export default Vue.extend({
   name: 'ContentComponent',
   components: {
     FilterComponent
   },
+
+  async created () {
+    const store = this.$store
+    await store.dispatch('fetchData')
+      .then(() => {
+        store.dispatch('createDefaultFilterValue').then(() => {
+          this.filterValue = { ...store.getters.getDefaultFilterValue }
+        })
+      })
+  },
+
   data () {
     return {
-      message: 'Lorem ipsum dolor sit'
+      message: 'Lorem ipsum dolor sit',
+      filterValue: {
+        floors: [0, 99],
+        square: [0, 99],
+        price: [0, 99],
+        rooms: [] as Array<number>
+      }
+    }
+  },
+  computed: {
+    values () {
+      return this.$store.getters.getValue
+    }
+  },
+  methods: {
+    setNewFilterValue (newValue : FilterValue) {
+      this.filterValue = { ...newValue }
     }
   }
 })

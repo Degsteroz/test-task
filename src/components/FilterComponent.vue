@@ -8,7 +8,7 @@
           :key="button.id"
           @click="changeButtonState(button.id)"
           class="buttonWrapper__button"
-          :class="button.active ? 'active' : ''"
+          :class="button.active ? '-active' : ''"
         >
           {{button.title}}
         </div>
@@ -16,20 +16,29 @@
 
     </div>
     <BaseSlider
-      :value="filterValue.floor"
-      :options="filterOptions.floor"
-      @change="changeFloorValue"
+      v-for="field in filterFields"
+      :key="field"
+      :value="filterValue[field]"
+      :options="filterOptions[field]"
+      :min-value="defaultFilterValue[field][0]"
+      :max-value="defaultFilterValue[field][1]"
+      @change="(newValue) => changeFilterValue(newValue, field)"
     />
-    <BaseSlider
-      :value="filterValue.square"
-      :options="filterOptions.square"
-      @change="changeSquareValue"
-    />
-    <BaseSlider
-      :value="filterValue.price"
-      :options="filterOptions.price"
-      @change="changePriceValue"
-    />
+    <div class="actionWrapper">
+      <div
+        class="action -active -long"
+        @click="saveFilters"
+      >
+        Применить
+      </div>
+      <div
+        class="setDefaultAction"
+        @click="setFilterValueToDefault"
+      >
+        Сбросить фильтр
+        <div class="setDefaultAction__underline"/>
+      </div>
+    </div>
   </v-container>
 </template>
 
@@ -42,30 +51,27 @@ export default Vue.extend({
   components: {
     BaseSlider
   },
+  props: {
+    filterValue: {
+      type: Object,
+      required: true
+    }
+  },
+
   data () {
     return {
-      filterValue: {
-        floor: [0, 99],
-        square: [0, 99],
-        price: [0, 99]
-      },
+      filterFields: ['floors', 'square', 'price'] as Array<'floors' | 'square'| 'price'>,
       filterOptions: {
-        floor: {
-          header: 'Этаж',
-          minValue: 0,
-          maxValue: 99
+        floors: {
+          header: 'Этаж'
         },
         square: {
           header: 'Площадь',
-          subheader: 'м2',
-          minValue: 0,
-          maxValue: 99
+          subheader: 'м2'
         },
         price: {
           header: 'Стоимость',
-          subheader: 'млн. р.',
-          minValue: 0,
-          maxValue: 99
+          subheader: 'млн. р.'
         },
         rooms: [
           {
@@ -96,23 +102,46 @@ export default Vue.extend({
       }
     }
   },
+  computed: {
+    defaultFilterValue () {
+      return this.$store.getters.getDefaultFilterValue
+    },
+    localFilterValue: {
+      get () {
+        return this.filterValue
+      },
+      set (newValue) {
+        this.$emit('change', newValue)
+      }
+    }
+  },
   methods: {
-    changeFloorValue (newValue: Array<number>) {
-      this.filterValue.floor = newValue
-    },
-    changeSquareValue (newValue: Array<number>) {
-      this.filterValue.square = newValue
-    },
-    changePriceValue (newValue: Array<number>) {
-      this.filterValue.price = newValue
+    changeFilterValue (newValue: Array<number>, field: 'floors'| 'square' | 'price' | 'rooms') {
+      const tempFilterValue = { ...this.localFilterValue }
+      tempFilterValue[field] = newValue
+      this.localFilterValue = tempFilterValue
     },
     changeButtonState (buttonId: number) : void {
-      const currentButton = this.filterOptions.rooms
+      const currentButtonId = this.filterOptions.rooms
         .findIndex((button) => button.id === buttonId)
+      this.filterOptions.rooms[currentButtonId].active = !this.filterOptions.rooms[currentButtonId].active
+      const activeButtonsValue = this.filterOptions.rooms
+        .filter((button) => button.active)
+        .map((filteredButton) => filteredButton.value)
 
-      if (currentButton > -1) {
-        this.filterOptions.rooms[currentButton].active = !this.filterOptions.rooms[currentButton].active
+      this.changeFilterValue(activeButtonsValue, 'rooms')
+    },
+
+    saveFilters () {
+      console.log(this.filterValue)
+    },
+    setFilterValueToDefault () {
+      this.localFilterValue = {
+        ...this.defaultFilterValue
       }
+      this.filterOptions.rooms.forEach((button) => {
+        button.active = false
+      })
     }
   }
 })
@@ -121,6 +150,7 @@ export default Vue.extend({
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="sass">
 @import "src/styles/mixins"
+@import "src/styles/colors"
 
 .filter
   display: flex
@@ -138,18 +168,40 @@ export default Vue.extend({
   display: flex
   flex-direction: row
 
+.action,
 .buttonWrapper__button
   @include border
   display: flex
   justify-content: center
-  width: 48px
+  min-width: 48px
   padding: 6px 0
   margin-right: 4px
 
   background: #FFFFFF
   cursor: pointer
+  font-weight: bold
 
-  &.active
-    background-color: #70D24E
+  &.-active
+    background-color: $lightGreen
     color: white
+
+  &.-long
+    padding: 5px 54px 7px
+    margin: 28px 0 5px
+
+.actionWrapper
+  display: flex
+  flex-direction: column
+  align-items: center
+
+.setDefaultAction
+  font-size: 10px !important // Переопредеяем значение в миксине
+  @include smallHeader
+  max-width: 106px
+  cursor: pointer
+
+.setDefaultAction__underline
+  width: 100%
+  height: 1px
+  background-color: $lightGreen
 </style>

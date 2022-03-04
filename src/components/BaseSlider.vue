@@ -12,8 +12,8 @@
     <v-range-slider
       @change="changeSliderValue"
       v-model="sliderValue"
-      :max="options.maxValue"
-      :min="options.minValue"
+      :max="maxSliderValue"
+      :min="minSliderValue"
     />
   </v-container>
 </template>
@@ -30,6 +30,12 @@ export default Vue.extend({
     value: {
       type: Array,
       required: true
+    },
+    maxValue: {
+      type: Number
+    },
+    minValue: {
+      type: Number
     }
   },
   computed: {
@@ -40,6 +46,12 @@ export default Vue.extend({
       set (newValue) : void {
         this.$emit('change', newValue)
       }
+    },
+    maxSliderValue () {
+      return this.$props.maxValue
+    },
+    minSliderValue () {
+      return this.$props.minValue
     }
   },
   methods: {
