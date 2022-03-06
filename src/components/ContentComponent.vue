@@ -7,13 +7,16 @@
       :filter-value="filterValue"
       @change="setNewFilterValue"
     />
-    {{filterValue}}
+    <ApartmentsComponent
+      :data="values"
+    />
   </v-container>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import FilterComponent from '@/components/FilterComponent.vue'
+import ApartmentsComponent from '@/components/ApartmentsComponent.vue'
 
 interface FilterValue {
   floors: number[],
@@ -25,7 +28,8 @@ interface FilterValue {
 export default Vue.extend({
   name: 'ContentComponent',
   components: {
-    FilterComponent
+    FilterComponent,
+    ApartmentsComponent
   },
 
   async created () {
@@ -64,9 +68,11 @@ export default Vue.extend({
 
 <style lang="sass" scoped>
 .content
-  background-color: #F8F8F8
   border-radius: 10px
-  padding: 38px 0 102px
+  padding: 38px 20px 102px
+  margin: 0
+  overflow: auto
+  max-width: 1200px
 
 .content__header
   font-size: 34px

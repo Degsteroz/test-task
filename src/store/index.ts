@@ -26,7 +26,7 @@ export default new Vuex.Store({
       return state.filterValue
     },
     getValue (state) {
-      return state.filteredValues
+      return state.values
     },
     getDefaultFilterValue (state) {
       return state.defaultFilterValue

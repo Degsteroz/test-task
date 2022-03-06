@@ -5,9 +5,19 @@
       <span class="slider__header subheader">{{options.subheader}}</span>
     </div>
     <div class="inputWrapper">
-      <input v-model="sliderValue[0]">
+      <input
+        :max="maxSliderValue"
+        :min="minSliderValue"
+        type="number"
+        v-model="sliderValue[0]"
+      >
       <span class="inputWrapper__separator"/>
-      <input v-model="sliderValue[1]">
+      <input
+        :max="maxSliderValue"
+        :min="minSliderValue"
+        type="number"
+        v-model="sliderValue[1]"
+      >
     </div>
     <v-range-slider
       @change="changeSliderValue"

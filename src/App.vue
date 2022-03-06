@@ -28,9 +28,11 @@ $padding: 80px
   font-weight: normal
   font-style: normal
 
-body,
-html
+body
   margin: 0
+  background-color: #2f2e2d
+  padding: $padding
+  height: 100vh
 
 #app
   -webkit-font-smoothing: antialiased
@@ -38,17 +40,20 @@ html
   font-family: 'Gotham Pro Regular', sans-serif
 
   display: flex
+  padding: 30px
+  max-height: 100%
+  overflow: auto
+  border-radius: 10px
+
   text-align: center
   color: #2C323A
-  padding: $padding
-  background-color: #2f2e2d
-
-  height: 100vh
-  width: 100vw
+  background-color: white
 
 .contentWrapper
-  background-color: white
-  border-radius: 10px
-  padding: 30px
+  display: flex
+  justify-content: center
   width: 100%
+  border-radius: 10px
+  background-color: #F8F8F8
+
 </style>

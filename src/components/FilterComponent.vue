@@ -155,6 +155,8 @@ export default Vue.extend({
 .filter
   display: flex
   align-items: flex-start
+  margin: 0
+  padding: 0
 
 .buttonContainer
   display: flex
