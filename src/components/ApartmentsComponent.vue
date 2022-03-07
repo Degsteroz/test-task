@@ -1,10 +1,14 @@
 <template>
-  <div class="apartmentWrapper">
-    <BaseApartment
+  <div class="apartmentComponent">
+    <div
       v-for="apartment in apartmentsList"
       :key="apartment.id"
-      :apartment="apartment"
-    />
+      class="apartmentWrapper"
+      >
+      <BaseApartment
+        :apartment="apartment"
+      />
+    </div>
   </div>
 </template>
 
@@ -36,8 +40,11 @@ export default Vue.extend({
 @import "src/styles/mixins"
 @import "src/styles/colors"
 
-.apartmentWrapper
+.apartmentComponent
   display: flex
   flex-wrap: wrap
   justify-content: space-between
+
+.apartmentWrapper
+  margin-bottom: 30px
 </style>

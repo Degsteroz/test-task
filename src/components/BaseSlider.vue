@@ -6,14 +6,14 @@
     </div>
     <div class="inputWrapper">
       <input
-        :max="maxSliderValue"
-        :min="minSliderValue"
+        :max="maxSliderValue + 1"
+        :min="minSliderValue - 1"
         type="number"
         v-model="sliderValue[0]"
       >
       <span class="inputWrapper__separator"/>
       <input
-        :max="maxSliderValue"
+        :max="maxSliderValue + 1"
         :min="minSliderValue"
         type="number"
         v-model="sliderValue[1]"
@@ -81,6 +81,11 @@ input
   padding: 7px 0 5px
   text-align: center
   width: 80px
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button
+  -webkit-appearance: none
+  margin: 0
 
 .slider
   display: flex

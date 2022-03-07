@@ -60,9 +60,9 @@ export default Vue.extend({
 
   data () {
     return {
-      filterFields: ['floors', 'square', 'price'] as Array<'floors' | 'square'| 'price'>,
+      filterFields: ['floor', 'square', 'price'] as Array<'floor' | 'square' | 'price'>,
       filterOptions: {
-        floors: {
+        floor: {
           header: 'Этаж'
         },
         square: {
@@ -76,26 +76,26 @@ export default Vue.extend({
         rooms: [
           {
             id: 0,
-            value: 0,
-            title: 'S',
-            active: false
-          },
-          {
-            id: 1,
             value: 1,
             title: '1к',
             active: false
           },
           {
-            id: 2,
+            id: 1,
             value: 2,
             title: '2к',
             active: false
           },
           {
-            id: 3,
+            id: 2,
             value: 3,
             title: '3к',
+            active: false
+          },
+          {
+            id: 3,
+            value: 4,
+            title: '4к',
             active: false
           }
         ]
@@ -106,26 +106,33 @@ export default Vue.extend({
     defaultFilterValue () {
       return this.$store.getters.getDefaultFilterValue
     },
+
     localFilterValue: {
       get () {
         return this.filterValue
       },
+
       set (newValue) {
         this.$emit('change', newValue)
       }
     }
   },
   methods: {
-    changeFilterValue (newValue: Array<number>, field: 'floors'| 'square' | 'price' | 'rooms') {
+    changeFilterValue (newValue: Array<number>, field: 'floor'| 'square' | 'price' | 'rooms') {
       const tempFilterValue = { ...this.localFilterValue }
+
       tempFilterValue[field] = newValue
       this.localFilterValue = tempFilterValue
     },
+
     changeButtonState (buttonId: number) : void {
       const currentButtonId = this.filterOptions.rooms
         .findIndex((button) => button.id === buttonId)
-      this.filterOptions.rooms[currentButtonId].active = !this.filterOptions.rooms[currentButtonId].active
-      const activeButtonsValue = this.filterOptions.rooms
+
+      const rooms = this.filterOptions.rooms
+
+      rooms[currentButtonId].active = !rooms[currentButtonId].active
+      const activeButtonsValue = rooms
         .filter((button) => button.active)
         .map((filteredButton) => filteredButton.value)
 
@@ -133,9 +140,11 @@ export default Vue.extend({
     },
 
     saveFilters () {
-      console.log(this.filterValue)
+      this.$store.commit('setFilteredValuesState', this.filterValue)
     },
+
     setFilterValueToDefault () {
+      this.$store.dispatch('setDefaultFilterValue')
       this.localFilterValue = {
         ...this.defaultFilterValue
       }
@@ -199,7 +208,6 @@ export default Vue.extend({
 .setDefaultAction
   font-size: 10px !important // Переопредеяем значение в миксине
   @include smallHeader
-  max-width: 106px
   cursor: pointer
 
 .setDefaultAction__underline

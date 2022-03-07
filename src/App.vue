@@ -19,8 +19,6 @@ export default Vue.extend({
 </script>
 
 <style lang="sass">
-$padding: 80px
-
 @font-face
   font-family: 'Gotham Pro Regular'
   src: url('./static/GothamPro.eot')
@@ -28,10 +26,15 @@ $padding: 80px
   font-weight: normal
   font-style: normal
 
+$bigPadding: 80px
+$padding: 30px
+
+html
+  overflow: hidden
 body
   margin: 0
   background-color: #2f2e2d
-  padding: $padding
+  padding: $bigPadding
   height: 100vh
 
 #app
@@ -39,21 +42,25 @@ body
   -moz-osx-font-smoothing: grayscale
   font-family: 'Gotham Pro Regular', sans-serif
 
-  display: flex
-  padding: 30px
-  max-height: 100%
-  overflow: auto
+  padding: $padding
+  height: calc(100vh - 80px * 2)
   border-radius: 10px
 
   text-align: center
   color: #2C323A
   background-color: white
+  overflow: auto
 
 .contentWrapper
   display: flex
   justify-content: center
-  width: 100%
   border-radius: 10px
   background-color: #F8F8F8
+  padding: 38px 0 102px
+  min-height: calc(100vh - 160px - 60px)
 
+.v-application--wrap
+  flex-basis: 100%
+  height: max-content
+  min-height: unset !important
 </style>
